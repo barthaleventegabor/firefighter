@@ -30,3 +30,4 @@ The project has a simple structure:
 - **HTML + CSS** (user interface)  
 - **Bootstrap** (styling and responsiveness)  
 - **SweetAlert** (user notifications, e.g., successful processing)
+
