@@ -6,43 +6,56 @@
     <title>FireFighters</title>
 </head>
 <body>
-    <div class="container">
-        <h1 class="display-4 text-center text-danger mt-4 mb-4">Firefighters Overtime</h1>
+    <div class="container mt-5">
+  <div class="card shadow-lg border-danger-subtle">
+    <div class="card-body">
+      <h1 class="display-6 text-center text-danger mb-4 fw-bold">
+        🚒 Firefighters Overtime Tool
+      </h1>
 
-        <div class="mb-3">
-            <label for="excelFile" class="form-label">Upload Excel file</label>
-            <input class="form-control" type="file" id="excelFile" accept=".xlsx">
-        </div>
+      <div class="mb-3">
+        <label for="excelFile" class="form-label fw-semibold">Upload Excel file</label>
+        <input class="form-control" type="file" id="excelFile" accept=".xlsx">
+      </div>
 
-        <button class="btn btn-secondary mb-3">Download json</button>
+      <div class="d-flex justify-content-center gap-2 mb-4">
+        <button class="btn btn-outline-danger">
+          <i class="bi bi-upload"></i> Upload
+        </button>
+        <button class="btn btn-secondary">
+          <i class="bi bi-download"></i> Download JSON
+        </button>
+      </div>
 
-        <table class="table table-danger">
-        <thead>
-            <tr>
-            <th scope="col">Nº de trabajador</th>
-            <th scope="col">Nombre del trabajador</th>
-            <th scope="col">Lugar</th>
-            <th scope="col">Fecha de inicio y fin</th>
-            <th scope="col">Nº Parte</th>
-            <th scope="col">Total Horas</th>
-            <th scope="col">Horas extras calculadas</th>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-danger">
+            <tr class="text-center">
+              <th scope="col">Nº de trabajador</th>
+              <th scope="col">Nombre del trabajador</th>
+              <th scope="col">Lugar</th>
+              <th scope="col">Fecha de inicio y fin</th>
+              <th scope="col">Nº Parte</th>
+              <th scope="col">Total Horas</th>
+              <th scope="col">Horas extras calculadas</th>
             </tr>
-        </thead>
-        <tbody>
-            <!-- Just an example, not real data -->
+          </thead>
+          <tbody>
             <tr>
-                <td>100</td>
-                <td>Nombre trabajador 1</td>
-                <td>Nombre ubicación 1</td>
-                <td>02/07/2025 de 23:15 a 00:30</td>
-                <td>1291/25</td>
-                <td>1:15</td>
-                <td>xy</td>
+              <td>100</td>
+              <td>Juan Pérez</td>
+              <td>Madrid</td>
+              <td>02/07/2025 de 23:15 a 00:30</td>
+              <td>1291/25</td>
+              <td>1:15</td>
+              <td>1:20</td>
             </tr>
-        </tbody>
+          </tbody>
         </table>
-
+      </div>
     </div>
+  </div>
+</div>
+    
 </body>
-
 </html>
