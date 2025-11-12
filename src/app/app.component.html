@@ -7,47 +7,42 @@
 </head>
 <body>
     <div class="container">
-   <h1 class="display-4 text-center text-danger mt-4 mb-4">Fire Fighters Overtime</h1>
+        <h1 class="display-4 text-center text-danger mt-4 mb-4">Firefighters Overtime</h1>
 
-<div class="mb-3">
-  <label for="excelFile" class="form-label">Upload Excel file</label>
-  <input class="form-control" type="file" id="excelFile" accept=".xlsx">
-</div>
+        <div class="mb-3">
+            <label for="excelFile" class="form-label">Upload Excel file</label>
+            <input class="form-control" type="file" id="excelFile" accept=".xlsx">
+        </div>
 
-<table class="table table-dark">
-  <thead>
-    ...
-  </thead>
-  <tbody>
-    <tr class="table-active">
-      ...
-    </tr>
-    <tr>
-      ...
-    </tr>
-    <tr>
-      <th scope="row">1</th>
-      <td colspan="2" class="table-active">Larry</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td colspan="2" class="table-active">Larry the Bird</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2" class="table-active">Mary</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td colspan="2" class="table-active">Mama</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
-</div>
+        <button class="btn btn-secondary mb-3">Download json</button>
+
+        <table class="table table-danger">
+        <thead>
+            <tr>
+            <th scope="col">Nº de trabajador</th>
+            <th scope="col">Nombre del trabajador</th>
+            <th scope="col">Lugar</th>
+            <th scope="col">Fecha de inicio y fin</th>
+            <th scope="col">Nº Parte</th>
+            <th scope="col">Total Horas</th>
+            <th scope="col">Horas extras calculadas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Just an example, not real data -->
+            <tr>
+                <td>100</td>
+                <td>Nombre trabajador 1</td>
+                <td>Nombre ubicación 1</td>
+                <td>02/07/2025 de 23:15 a 00:30</td>
+                <td>1291/25</td>
+                <td>1:15</td>
+                <td>xy</td>
+            </tr>
+        </tbody>
+        </table>
+
+    </div>
 </body>
 
 </html>
