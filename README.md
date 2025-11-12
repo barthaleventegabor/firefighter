@@ -31,3 +31,10 @@ The project has a simple structure:
 - **Bootstrap** (styling and responsiveness)  
 - **SweetAlert** (user notifications, e.g., successful processing)
 
+The app currently consists of a single page built with Angular and Bootstrap.  
+The interface includes:
+
+- A **main title** (`<h1>`) with a red Bootstrap theme (`text-danger`) to match the "Firefighters" theme.  
+- A **file upload field** (`<input type="file">`) that allows users to select an `.xlsx` Excel file from their computer.  
+- A **"Download JSON" button**, which will export the processed data as a `.json` file once the logic is implemented.  
+- A **Bootstrap-styled table** that displays the imported Excel data and the calculated overtime results.
