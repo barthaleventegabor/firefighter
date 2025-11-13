@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FireFighters</title>
-</head>
-<body>
-    <div class="container mt-5">
+<div class="container-fluid">
+
   <div class="card shadow-lg border-danger-subtle">
     <div class="card-body">
       <h1 class="display-6 text-center text-danger mb-4 fw-bold">
@@ -15,19 +8,62 @@
 
       <div class="mb-3">
         <label for="excelFile" class="form-label fw-semibold">Upload Excel file</label>
-        <input class="form-control" type="file" id="excelFile" accept=".xlsx">
+        <input class="form-control form-control-sm mb-3" type="file" (change)="onFileChange($event)" id="excelFile"
+          accept=".xlsx">
       </div>
 
       <div class="d-flex justify-content-center gap-2 mb-4">
-        <button class="btn btn-outline-danger">
-          <i class="bi bi-upload"></i> Upload
-        </button>
-        <button class="btn btn-secondary">
+        <!-- <button class="btn btn-outline-danger">
+            <i class="bi bi-upload"></i> Upload
+          </button> -->
+
+        @if (workerSummaries.length > 0) {
+        <button class="btn btn-secondary" (click)="downloadJSON()">
           <i class="bi bi-download"></i> Download JSON
         </button>
-      </div>
+        }
 
-      <div class="table-responsive">
+      </div>
+      @for (worker of workerSummaries; track worker.id) {
+      <div class="card mb-3">
+        <div class="card-header">
+          <h2>{{ worker.name }} (ID: {{ worker.id }})</h2>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+              <thead class="table-danger">
+                <tr class="text-center">
+                  <th scope="col">Location</th>
+                  <th scope="col">Start</th>
+                  <th scope="col">End</th>
+                  <th scope="col">Report</th>
+                  <th scope="col">Total Hours</th>
+                  <th scope="col">Adjusted Hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (i of worker.interventions; track i.report) {
+                <tr>
+                  <td>{{ i.location }}</td>
+                  <td>{{ i.start | date:'short' }}</td>
+                  <td>{{ i.end | date:'short' }}</td>
+                  <td>{{ i.report }}</td>
+                  <td>{{ i.totalHours }}</td>
+                  <td>{{ i.adjustedHours }}</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer">
+          <h3 class="float-end"><strong>Total adjusted time:</strong> {{ worker.totalAdjustedHours }}</h3>
+        </div>
+      </div>
+      }
+
+      <!-- <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle">
           <thead class="table-danger">
             <tr class="text-center">
@@ -52,10 +88,9 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
+
+
     </div>
   </div>
 </div>
-    
-</body>
-</html>
