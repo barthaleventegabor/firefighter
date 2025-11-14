@@ -1,6 +1,6 @@
 /*
 Filename: app.component.ts
-Author: Vámosi László Ádám
+Author: Vámosi László Ádám, Bartha Levente Gábor, Cipola Ákos
 Cordoba, 2025
 */
 
@@ -37,18 +37,33 @@ export class AppComponent {
   title = 'firefighters';
   workerSummaries: WorkerSummary[] = [];
 
+  // Nyers, még feldolgozatlan Excel sorok
+  pendingRows: any[][] = [];
+
   onFileChange(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
     if (target.files.length !== 1) throw new Error('Cannot use multiple files');
 
+    const file = target.files[0];
     const reader = new FileReader();
+
     reader.onload = (e: any) => {
       const wb = XLSX.read(e.target.result, { type: 'binary' });
       const ws = wb.Sheets[wb.SheetNames[0]];
       const rows: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' }) as any[][];
-      this.processRows(rows);
+
+      // Mindig az új fájl kerül a pendingRows-ba
+      this.pendingRows = rows;
     };
-    reader.readAsBinaryString(target.files[0]);
+
+    reader.readAsBinaryString(file);
+  }
+
+  processPendingData() {
+    if (this.pendingRows.length === 0) return;
+
+    this.processRows(this.pendingRows);
+    this.pendingRows = [];
   }
 
   processRows(rows: any[][]) {

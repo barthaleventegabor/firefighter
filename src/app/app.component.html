@@ -1,4 +1,3 @@
-
 <!-- Filename: app.component.html
 Authors: Bartha Levente Gábor, Cipola Ákos 
 Cordoba, 2025 -->
@@ -8,27 +7,31 @@ Cordoba, 2025 -->
   <div class="card shadow-lg border-danger-subtle">
     <div class="card-body">
       <h1 class="display-6 text-center text-danger mb-4 fw-bold">
-        🚒 Firefighters Overtime Tool
+        🚒 Herramienta de horas extra para bomberos
       </h1>
 
       <div class="mb-3">
-        <label for="excelFile" class="form-label fw-semibold">Upload Excel file</label>
+        <label for="excelFile" class="form-label fw-semibold">Subir archivo de Excel</label>
         <input class="form-control form-control-sm mb-3" type="file" (change)="onFileChange($event)" id="excelFile"
           accept=".xlsx">
       </div>
 
       <div class="d-flex justify-content-center gap-2 mb-4">
-        <!-- <button class="btn btn-outline-danger">
-            <i class="bi bi-upload"></i> Upload
-          </button> -->
+
+        @if (pendingRows.length > 0) {
+        <button class="btn btn-danger" (click)="processPendingData()">
+          <i class="bi bi-gear"></i> Procesar archivo
+        </button>
+        }
 
         @if (workerSummaries.length > 0) {
         <button class="btn btn-secondary" (click)="downloadJSON()">
-          <i class="bi bi-download"></i> Download JSON
+          <i class="bi bi-download"></i> Descargar JSON
         </button>
         }
 
       </div>
+
       @for (worker of workerSummaries; track worker.id) {
       <div class="card mb-3">
         <div class="card-header">
@@ -39,12 +42,12 @@ Cordoba, 2025 -->
             <table class="table table-bordered table-hover align-middle">
               <thead class="table-danger">
                 <tr class="text-center">
-                  <th scope="col">Location</th>
-                  <th scope="col">Start</th>
-                  <th scope="col">End</th>
-                  <th scope="col">Report</th>
-                  <th scope="col">Total Hours</th>
-                  <th scope="col">Adjusted Hours</th>
+                  <th scope="col">Lugar</th>
+                  <th scope="col">Inicio</th>
+                  <th scope="col">Fin</th>
+                  <th scope="col">Nº Parte</th>
+                  <th scope="col">Horas Totales</th>
+                  <th scope="col">Horas Ajustadas</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,34 +70,6 @@ Cordoba, 2025 -->
         </div>
       </div>
       }
-
-      <!-- <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
-          <thead class="table-danger">
-            <tr class="text-center">
-              <th scope="col">Nº de trabajador</th>
-              <th scope="col">Nombre del trabajador</th>
-              <th scope="col">Lugar</th>
-              <th scope="col">Fecha de inicio y fin</th>
-              <th scope="col">Nº Parte</th>
-              <th scope="col">Total Horas</th>
-              <th scope="col">Horas extras calculadas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>100</td>
-              <td>Juan Pérez</td>
-              <td>Madrid</td>
-              <td>02/07/2025 de 23:15 a 00:30</td>
-              <td>1291/25</td>
-              <td>1:15</td>
-              <td>1:20</td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
-
 
     </div>
   </div>
