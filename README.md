@@ -10,6 +10,24 @@ The entire implementation is handled within a **single standalone Angular compon
 
 ---
 
+## 🚀 Running the Project
+
+### Prerequisites
+- Node.js ≥ 18.13
+
+### Install Dependencies
+```bash
+npm install
+```
+
+### Start Development Server
+```bash
+ng serve
+```
+
+---
+
+
 ## 🛠 Technologies Used
 
 ### **Frontend Framework**
@@ -51,8 +69,6 @@ The system extracts dates from strings such as:
 
 02/07/2025 de 23:15 a 00:30
 
-yaml
-Kód másolása
 
 Automatically handles:
 
@@ -84,23 +100,17 @@ If an intervention is less than **60 minutes**, it is rounded up to **1 hour**.
 #### **Rule 2 — Rounding to 10-minute blocks**
 Durations above 60 minutes are rounded to the nearest 10 minutes:
 
-1:03 → 1:00
-1:06 → 1:10
-1:14 → 1:10
+1:03 → 1:00  
+1:06 → 1:10  
+1:14 → 1:10  
 1:17 → 1:20
-
-pgsql
-Kód másolása
 
 #### **Rule 3 — Monthly Worker Summary Rounding**
 After summing all adjusted minutes for a worker,  
 the final total is **rounded UP to 30-minute blocks**:
 
-7h 20m → 7h 30m
+7h 20m → 7h 30m  
 7h 40m → 8h 00m
-
-yaml
-Kód másolása
 
 All rounded values are output in **H:MM format**.
 
@@ -110,23 +120,17 @@ All rounded values are output in **H:MM format**.
 
 The application creates a `WorkerSummary` structure:
 
-id
-name
+id  
+name  
 interventions[] → each with:
 
-location
+- location
+- start / end
+- report
+- duration (raw)
+- adjusted duration
 
-start / end
-
-report
-
-duration (raw)
-
-adjusted duration
 totalAdjustedHours (final monthly rounded total)
-
-yaml
-Kód másolása
 
 Each worker receives:
 
@@ -159,9 +163,6 @@ A red Bootstrap-styled title:
 
 🚒 Firefighters Overtime Tool
 
-markdown
-Kód másolása
-
 ### 📤 **File Upload**
 A simple file selector styled with:
 
@@ -183,4 +184,8 @@ Each worker has:
 
 All tables are fully responsive via:
 
-- `.table-responsive`
+- `.table-responsive`  
+
+
+
+
