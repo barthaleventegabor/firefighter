@@ -54,6 +54,7 @@ export class AppComponent {
 
       // Mindig az új fájl kerül a pendingRows-ba
       this.pendingRows = rows;
+      this.workerSummaries = [];  // ← így eltűnik a régi táblázat
     };
 
     reader.readAsBinaryString(file);
