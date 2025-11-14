@@ -1,40 +1,186 @@
-# Excel → JSON Angular Project
+# 🚒 Firefighters Overtime Processing Tool  
+### Excel → JSON Conversion (Angular 18)
 
-## Project Overview
+## 📌 Project Overview
 
-We have started an **Angular 18** project aimed at processing Excel files, rounding hours according to specified rules, and outputting the results in JSON format.
+This project is an **Angular 18 web application** designed for processing firefighter intervention records stored in Excel `.xlsx` files.  
+The application reads Excel data, applies specific overtime calculation rules, groups results by worker, and generates a downloadable JSON output.
 
-The project has a simple structure:  
-- We work in **a single component** (`AppComponent`), so no routing or separate modules are needed.  
-- The **logic is implemented in TypeScript**.  
-- The **user interface is built with HTML and CSS**.  
-- **Bootstrap** and **SweetAlert** are used for styling and interactive notifications.
-
-
-
-- Upload Excel files (`.xlsx` format)  
-- Process interventions according to the following rules:
-  1. Minimum 1 hour, except for consecutive interventions  
-  2. Interventions longer than 1 hour are rounded to the nearest 10 minutes  
-  3. Monthly total hours are rounded up to 30-minute blocks  
-- Generate JSON objects with aggregated data per worker  
-- Download the JSON file  
-- Display results on the web interface in a formatted or table-like JSON view
+The entire implementation is handled within a **single standalone Angular component (`AppComponent`)**, making the project lightweight and easy to maintain.
 
 ---
 
-## Technologies Used
+## 🛠 Technologies Used
 
-- **Angular 18**  
-- **TypeScript** (logic implementation)  
-- **HTML + CSS** (user interface)  
-- **Bootstrap** (styling and responsiveness)  
-- **SweetAlert** (user notifications, e.g., successful processing)
+### **Frontend Framework**
+- Angular 18 (standalone components, no routing)
+- TypeScript (full business logic implementation)
 
-The app currently consists of a single page built with Angular and Bootstrap.  
-The interface includes:
+### **UI & Styling**
+- HTML / CSS  
+- Bootstrap (layout, styling, responsive tables)  
+- SweetAlert2 (alerts for file upload, processing feedback)
 
-- A **main title** (`<h1>`) with a red Bootstrap theme (`text-danger`) to match the "Firefighters" theme.  
-- A **file upload field** (`<input type="file">`) that allows users to select an `.xlsx` Excel file from their computer.  
-- A **"Download JSON" button**, which will export the processed data as a `.json` file once the logic is implemented.  
-- A **Bootstrap-styled table** that displays the imported Excel data and the calculated overtime results.
+### **File Handling**
+- `xlsx` (SheetJS) – Excel `.xlsx` parsing  
+- Browser Blob API – JSON export  
+
+---
+
+## 📂 Features
+
+### ✔ 1. Excel File Upload
+Users can upload `.xlsx` files through a Bootstrap-styled file input.
+
+---
+
+### ✔ 2. Excel Row Processing  
+Each row of the spreadsheet is converted into structured data fields:
+
+- Worker ID  
+- Worker name  
+- Location  
+- Start–End timestamps  
+- Report number  
+- Calculated duration  
+
+---
+
+### ✔ 3. Timestamp Parsing  
+The system extracts dates from strings such as:
+
+02/07/2025 de 23:15 a 00:30
+
+yaml
+Kód másolása
+
+Automatically handles:
+
+- Date extraction  
+- Time extraction  
+- **Cross-midnight shifts** (end time < start time → next day)
+
+---
+
+### ✔ 4. Intervention Merging
+
+Interventions that occur **back-to-back** (end time == next start time) are merged:
+
+- Duration is combined  
+- Reports are concatenated  
+- Locations are merged  
+
+---
+
+### ✔ 5. Overtime Calculation Rules
+
+Each intervention is processed using these rules:
+
+#### **Rule 1 — Minimum Duration**
+If an intervention is less than **60 minutes**, it is rounded up to **1 hour**.
+
+> Exception: merged interventions follow total accumulated time.
+
+#### **Rule 2 — Rounding to 10-minute blocks**
+Durations above 60 minutes are rounded to the nearest 10 minutes:
+
+1:03 → 1:00
+1:06 → 1:10
+1:14 → 1:10
+1:17 → 1:20
+
+pgsql
+Kód másolása
+
+#### **Rule 3 — Monthly Worker Summary Rounding**
+After summing all adjusted minutes for a worker,  
+the final total is **rounded UP to 30-minute blocks**:
+
+7h 20m → 7h 30m
+7h 40m → 8h 00m
+
+yaml
+Kód másolása
+
+All rounded values are output in **H:MM format**.
+
+---
+
+## 📊 Data Grouping per Worker
+
+The application creates a `WorkerSummary` structure:
+
+id
+name
+interventions[] → each with:
+
+location
+
+start / end
+
+report
+
+duration (raw)
+
+adjusted duration
+totalAdjustedHours (final monthly rounded total)
+
+yaml
+Kód másolása
+
+Each worker receives:
+
+- A card displaying their name and ID  
+- A Bootstrap table listing their interventions  
+- A footer showing the **final monthly rounded total**
+
+---
+
+## 💾 JSON Export
+
+With one click, users can export the computed results as a `.json` file containing:
+
+- Worker metadata  
+- All interventions  
+- Start/end timestamps  
+- Total and adjusted durations  
+- Final monthly totals  
+
+Exporting is handled via the **browser’s Blob API**.
+
+---
+
+## 🖥 User Interface Overview
+
+The web page includes:
+
+### 🟥 **Header**
+A red Bootstrap-styled title:
+
+🚒 Firefighters Overtime Tool
+
+markdown
+Kód másolása
+
+### 📤 **File Upload**
+A simple file selector styled with:
+
+- `form-control`  
+- `form-control-sm`  
+- `mb-3`
+
+### 📥 **JSON Download**
+Visible only after processing:
+
+- `btn btn-secondary`
+
+### 📑 **Worker Tables**
+Each worker has:
+
+- A card with their name and ID  
+- A table listing all interventions  
+- A footer summarizing the total adjusted hours  
+
+All tables are fully responsive via:
+
+- `.table-responsive`
