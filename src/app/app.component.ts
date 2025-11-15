@@ -1,6 +1,6 @@
 /*
 Filename: app.component.ts
-Author: Vámosi László Ádám, Bartha Levente Gábor, Cipola Ákos
+Authors: Vámosi László Ádám, Bartha Levente Gábor, Cipola Ákos
 Cordoba, 2025
 */
 
