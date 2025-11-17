@@ -1,4 +1,4 @@
-# 🚒 Firefighters Overtime Processing Tool  
+# 🚒 Firefighters Overtime Processing Tool (English) 
 ### Excel → JSON Conversion (Angular 18)
 
 ## 📌 Project Overview
@@ -100,9 +100,9 @@ If an intervention is less than **60 minutes**, it is rounded up to **1 hour**.
 #### **Rule 2 — Rounding to 10-minute blocks**
 Durations above 60 minutes are rounded to the nearest 10 minutes:
 
-1:03 → 1:00  
+1:03 → 1:10  
 1:06 → 1:10  
-1:14 → 1:10  
+1:14 → 1:20  
 1:17 → 1:20
 
 #### **Rule 3 — Monthly Worker Summary Rounding**
@@ -184,8 +184,192 @@ Each worker has:
 
 All tables are fully responsive via:
 
-- `.table-responsive`  
+- `.table-responsive`
+  
+---
 
+# 🚒 Herramienta de Procesamiento de Horas Extra de Bomberos (Español)
+### Excel → Conversión a JSON (Angular 18)
 
+## 📌 Resumen del Proyecto
 
+Este proyecto es una **aplicación web Angular 18** diseñada para procesar los registros de intervenciones de bomberos almacenados en archivos Excel `.xlsx`.  
+La aplicación lee los datos de Excel, aplica reglas específicas para calcular horas extra, agrupa los resultados por trabajador y genera un archivo JSON descargable.
 
+Toda la implementación se maneja dentro de un **único componente independiente de Angular (`AppComponent`)**, lo que hace que el proyecto sea ligero y fácil de mantener.
+
+---
+
+## 🚀 Ejecutando el Proyecto
+
+### Requisitos Previos
+- Node.js ≥ 18.13
+
+### Instalar Dependencias
+```bash
+npm install
+```
+
+### Iniciar el Servidor de Desarrollo
+```bash
+ng serve
+```
+
+---
+
+## 🛠 Tecnologías Utilizadas
+
+### **Framework Frontend**
+- Angular 18 (componentes independientes, sin routing)  
+- TypeScript (implementación completa de la lógica de negocio)
+
+### **UI y Estilos**
+- HTML / CSS  
+- Bootstrap (diseño, estilos, tablas responsivas)  
+- SweetAlert2 (alertas para subida de archivos y feedback de procesamiento)
+
+### **Manejo de Archivos**
+- `xlsx` (SheetJS) – Parsing de archivos Excel `.xlsx`  
+- Browser Blob API – Exportación a JSON  
+
+---
+
+## 📂 Funcionalidades
+
+### ✔ 1. Subida de Archivos Excel
+Los usuarios pueden subir archivos `.xlsx` mediante un selector de archivos estilizado con Bootstrap.
+
+---
+
+### ✔ 2. Procesamiento de Filas de Excel  
+Cada fila de la hoja de cálculo se convierte en campos de datos estructurados:
+
+- ID del trabajador  
+- Nombre del trabajador  
+- Ubicación  
+- Tiempos de inicio y fin  
+- Número de informe  
+- Duración calculada  
+
+---
+
+### ✔ 3. Parsing de Tiempos  
+El sistema extrae fechas de cadenas como:
+
+02/07/2025 de 23:15 a 00:30
+
+Maneja automáticamente:
+
+- Extracción de fecha  
+- Extracción de hora  
+- **Turnos que cruzan la medianoche** (fin < inicio → siguiente día)
+
+---
+
+### ✔ 4. Fusión de Intervenciones
+
+Las intervenciones que ocurren **una tras otra** (fin == siguiente inicio) se fusionan:
+
+- Se combinan las duraciones  
+- Se concatenan los informes  
+- Se fusionan las ubicaciones  
+
+---
+
+### ✔ 5. Reglas de Cálculo de Horas Extra
+
+Cada intervención se procesa usando estas reglas:
+
+#### **Regla 1 — Duración Mínima**
+Si una intervención dura menos de **60 minutos**, se redondea a **1 hora**.
+
+> Excepción: las intervenciones fusionadas siguen la duración total acumulada.
+
+#### **Regla 2 — Redondeo a bloques de 10 minutos**
+Duraciones mayores a 60 minutos se redondean al múltiplo de 10 minutos más cercano:
+
+1:03 → 1:10  
+1:06 → 1:10  
+1:14 → 1:20  
+1:17 → 1:20
+
+#### **Regla 3 — Redondeo mensual por trabajador**
+Después de sumar todos los minutos ajustados de un trabajador,  
+el total final se **redondea hacia arriba a bloques de 30 minutos**:
+
+7h 20m → 7h 30m  
+7h 40m → 8h 00m
+
+Todos los valores redondeados se muestran en **formato H:MM**.
+
+---
+
+## 📊 Agrupación de Datos por Trabajador
+
+La aplicación crea una estructura `WorkerSummary`:
+
+id  
+nombre  
+intervenciones[] → cada una con:
+
+- ubicación  
+- inicio / fin  
+- informe  
+- duración (original)  
+- duración ajustada
+
+totalAdjustedHours (total mensual final redondeado)
+
+Cada trabajador recibe:
+
+- Una tarjeta mostrando su nombre e ID  
+- Una tabla de Bootstrap listando sus intervenciones  
+- Un pie de tabla mostrando el **total mensual final redondeado**
+
+---
+
+## 💾 Exportación a JSON
+
+Con un solo clic, los usuarios pueden exportar los resultados calculados como un archivo `.json` que contiene:
+
+- Metadatos del trabajador  
+- Todas las intervenciones  
+- Tiempos de inicio/fin  
+- Duraciones totales y ajustadas  
+- Totales finales mensuales
+
+La exportación se maneja mediante la **Browser Blob API**.
+
+---
+
+## 🖥 Vista de la Interfaz de Usuario
+
+La página web incluye:
+
+### 🟥 **Encabezado**
+Título en Bootstrap rojo:
+
+🚒 Herramienta de Horas Extra de Bomberos
+
+### 📤 **Subida de Archivo**
+Un selector de archivos simple estilizado con:
+
+- `form-control`  
+- `form-control-sm`  
+- `mb-3`
+
+### 📥 **Descarga JSON**
+Visible solo después del procesamiento:
+
+- `btn btn-secondary`
+
+### 📑 **Tablas por Trabajador**
+Cada trabajador tiene:
+
+- Una tarjeta con su nombre e ID  
+- Una tabla listando todas las intervenciones  
+- Un pie de tabla resumiendo el total de horas ajustadas
+
+Todas las tablas son totalmente responsivas gracias a:
+
+- `.table-responsive`

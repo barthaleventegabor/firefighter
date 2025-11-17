@@ -39,16 +39,12 @@ export class AppComponent {
   workerSummaries: WorkerSummary[] = [];
   pendingRows: any[][] = [];
 
-  // ───────────────────────────────────────────
-  //              FILE FELTÖLTÉS + VALIDÁCIÓ
-  // ───────────────────────────────────────────
   onFileChange(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
     if (!target.files || target.files.length !== 1) return;
 
     const file = target.files[0];
 
-    // ❌ Rossz formátum – nem XLSX
     if (!file.name.endsWith('.xlsx')) {
       Swal.fire({
         icon: 'error',
@@ -78,9 +74,6 @@ export class AppComponent {
           defval: ''
         }) as any[][];
 
-        // ─────────────────────────────────────
-        //      XLSX STRUKTÚRA ELLENŐRZÉS
-        // ─────────────────────────────────────
         if (!this.validateStructure(rows)) {
           return this.errorFile(
             "Este archivo XLSX no coincide con el formato esperado por la herramienta."
@@ -100,18 +93,13 @@ export class AppComponent {
     reader.readAsBinaryString(file);
   }
 
-  // ───────────────────────────────────────────
-  //           XLSX STRUKTÚRA VALIDÁLÁSA
-  // ───────────────────────────────────────────
   validateStructure(rows: any[][]): boolean {
     if (!rows || rows.length < 2) return false;
 
     const header = rows[0];
 
-    // Legalább 5 oszlop kell
     if (header.length < 5) return false;
 
-    // Legalább egy sorban legyen ID + Name + DateField
     const validRow = rows.slice(1).find(r =>
       r[0] && r[1] && r[3] && typeof r[3] === "string"
     );
@@ -119,9 +107,6 @@ export class AppComponent {
     return !!validRow;
   }
 
-  // ───────────────────────────────────────────
-  //                FELDOLGOZÁS
-  // ───────────────────────────────────────────
   processPendingData() {
     if (this.pendingRows.length === 0) return;
 
@@ -175,9 +160,6 @@ export class AppComponent {
     this.workerSummaries = Object.values(workers);
   }
 
-  // ───────────────────────────────────────────
-  //          DÁTUM PARSER + VALIDÁLÁS
-  // ───────────────────────────────────────────
   parseStartEnd(text: string): { start: Date; end: Date } {
     const match = text.match(
       /(\d{2}\/\d{2}\/\d{4}).*?(\d{1,2}:\d{2}).*?(\d{1,2}:\d{2})/
@@ -199,9 +181,6 @@ export class AppComponent {
     return { start, end };
   }
 
-  // ───────────────────────────────────────────
-  //                SZABÁLYOK
-  // ───────────────────────────────────────────
   applyRules(worker: WorkerSummary) {
     const merged: Intervention[] = [];
 
@@ -226,8 +205,7 @@ export class AppComponent {
       if (minutes < 60) {
         minutes = 60;
       } else {
-        const rem = minutes % 10;
-        minutes = rem >= 5 ? minutes + (10 - rem) : minutes - rem;
+        minutes = Math.ceil(minutes / 10) * 10;
       }
 
       interv.adjustedMinutes = minutes;
@@ -253,9 +231,6 @@ export class AppComponent {
     return `${h}:${m.toString().padStart(2, '0')}`;
   }
 
-  // ───────────────────────────────────────────
-  //              JSON EXPORT
-  // ───────────────────────────────────────────
   downloadJSON() {
     const exportData = this.workerSummaries.map(w => ({
       id: w.id,
@@ -285,9 +260,6 @@ export class AppComponent {
     URL.revokeObjectURL(url);
   }
 
-  // ───────────────────────────────────────────
-  //              SweetAlert ERROR HANDLER
-  // ───────────────────────────────────────────
   errorFile(msg: string) {
     Swal.fire({
       icon: 'error',

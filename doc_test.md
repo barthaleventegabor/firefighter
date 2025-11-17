@@ -107,14 +107,15 @@ Applied only when the intervention is **not merged** by Rule 4.
 
 ---
 
-### 4.5 Rule 2 — Rounding to Nearest 10 Minutes
+### 4.5 Rule 2 — Rounding to 10 Minutes (Always UP)
 
-| ID | Input Duration | Expected |
-|----|----------------|----------|
-| R2-01 | 1:08 | 1:10 |
-| R2-02 | 1:14 | 1:10 |
-| R2-03 | 1:16 | 1:20 |
-| R2-04 | 2:04 | 2:00 |
+| ID    | Input Duration | Expected |
+| ----- | -------------- | -------- |
+| R2-01 | 1:08           | **1:10** |
+| R2-02 | 1:14           | **1:20** |
+| R2-03 | 1:16           | **1:20** |
+| R2-04 | 2:04           | **2:10** |
+
 
 ---
 
@@ -298,12 +299,13 @@ las dos se **unen**, y las reglas se aplican **después**.
 
 ### 4.5 Regla 2 — Redondeo a 10 Minutos
 
-| ID | Entrada | Salida |
-|----|---------|--------|
-| R2-01 | 1:08 | 1:10 |
-| R2-02 | 1:14 | 1:10 |
-| R2-03 | 1:16 | 1:20 |
-| R2-04 | 2:04 | 2:00 |
+| ID    | Entrada | Salida   |
+| ----- | ------- | -------- |
+| R2-01 | 1:08    | **1:10** |
+| R2-02 | 1:14    | **1:20** |
+| R2-03 | 1:16    | **1:20** |
+| R2-04 | 2:04    | **2:10** |
+
 
 ---
 
